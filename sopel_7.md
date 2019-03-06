@@ -9,6 +9,7 @@ Sopel 7 lays the groundwork for a lot of awesome stuff! We have a major update
 to Sopel's command-line interface in progress (which will be finished in Sopel
 8), and some API updates that might affect a few existing modules.
 
+
 ## CLI restructuring
 
 Version 7 deprecates most of the command-line arguments that Sopel has used for
@@ -50,3 +51,24 @@ In Sopel 8, the old arguments from Sopel 6 and lower will be removed.
 Later releases of Sopel 7 may output warnings when deprecated arguments are
 used, but you really should update your scripts immediately upon upgrading to
 Sopel 7. Then you can't forget later!
+
+
+## Upcoming API changes
+
+Sopel 7.x will be the last release series to support the `bot.privileges` data
+structure (deprecated in [Sopel 6.2.0]({% link _changelogs/6.2.0.md %}),
+released January 16, 2016).
+
+Beginning in Sopel 8, `bot.privileges` will be removed and modules trying to
+access it will throw an exception. `bot.channels` will be the _only_ place to
+get privilege data going forward.
+
+We suggest updating your own modules as soon as possible, if you have not
+already done so, to avoid forgetting later (this will be a theme for these
+notes). Updating modules published to PyPI should take priority, especially
+modules written for Sopel 6 that are not future-proofed by capping Sopel's
+version in their requirements.
+
+If you use third-party modules that have not been updated, we encourage you to
+inform the author(s) politely that they need to update. Or better yet, submit
+a pull request or patch yourself!
