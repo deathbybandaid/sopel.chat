@@ -31,9 +31,9 @@ general overview of the old structure vs. the new:
 | `sopel --configure-all`     | `sopel configure`           |
 | `sopel --configure-modules` | `sopel configure --modules` |
 
-There's one argument deserving special mention: `--migrate`/`-m`. It will be
-removed in Sopel 7, because it has done nothing since version 4.0.0. Someone
-long ago deleted the code to handle it without mentioning it anywhere, but
+There's one argument deserving of special mention: `--migrate`/`-m`. It will
+be removed in Sopel 7, because it has been a no-op since version 4.0.0.
+Someone deleted the code to handle it without mentioning it anywhere, but
 Sopel has continued to carry around this useless argument since 2014. No more!
 
 New commands are not always going to be shorter than the old ones (see the
@@ -53,9 +53,9 @@ used, but you really should update your scripts immediately upon upgrading to
 Sopel 7. Then you can't forget later!
 
 
-## New API changes
+## Sopel 7 API changes
 
-### Proper URL callbacks API
+### Managing URL callbacks
 
 For quite a while, Sopel modules wishing to override the `url.py` module's
 automatic title-fetching for certain URLs have customarily done something along
@@ -92,7 +92,9 @@ for the life of Sopel 7.x, at a minimum. However, doing so is considered
 deprecated, leaving future versions free to move the callback storage if needed.
 
 
-## Upcoming API changes
+## Planned future API changes
+
+### Removal of `bot.privileges`
 
 Sopel 7.x will be the last release series to support the `bot.privileges` data
 structure (deprecated in [Sopel 6.2.0]({% link _changelogs/6.2.0.md %}),
