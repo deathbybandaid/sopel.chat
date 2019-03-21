@@ -53,6 +53,45 @@ used, but you really should update your scripts immediately upon upgrading to
 Sopel 7. Then you can't forget later!
 
 
+## New API changes
+
+### Proper URL callbacks API
+
+For quite a while, Sopel modules wishing to override the `url.py` module's
+automatic title-fetching for certain URLs have customarily done something along
+these lines:
+
+```python
+# in the module's setup() function:
+    if not bot.memory['url_callbacks']:
+        bot.memory['url_callbacks'] = tools.SopelMemory()
+    bot.memory['url_callbacks'][compiled_regex] = methodname
+```
+
+Similar manual manipulation of the object in memory was needed to unregister
+handlers at module unload:
+
+```python
+# in the module's shutdown() function:
+    try:
+        del bot.memory['url_callbacks'][compiled_regex]
+    except KeyError:
+        pass
+```
+
+Going forward, a new set of API methods should be used instead:
+
+  - `bot.register_url_callback(pattern, methodname)`, to call `methodname` when
+    a URL in a message matches the `pattern`
+  - `bot.unregister_url_callback(pattern)`, to unregister the `pattern` and its
+    associated callback(s)
+  - `bot.search_url_callbacks(url)`, to find callbacks matching the given `url`
+
+Manually accessing `bot.memory['url_callbacks']` as before will continue to work
+for the life of Sopel 7.x, at a minimum. However, doing so is considered
+deprecated, leaving future versions free to move the callback storage if needed.
+
+
 ## Upcoming API changes
 
 Sopel 7.x will be the last release series to support the `bot.privileges` data
