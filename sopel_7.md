@@ -9,6 +9,63 @@ Sopel 7 lays the groundwork for a lot of awesome stuff! We have a major update
 to Sopel's command-line interface in progress (which will be finished in Sopel
 8), and some API updates that might affect a few existing modules.
 
+But first, we really need to talk briefly about Python.
+
+
+## A note about Python versions
+
+If you still use Sopel under Python 2, you might notice that Sopel 7 emits
+warnings about version compatibility. The sad reality is, as of January 1, 2020,
+Python 2.7 no longer receives any updates. While this doesn't mean we will
+simply drop support for running Sopel under Python 2 immediately, it _does_ mean
+that we will no longer reject ideas that would require doing so.
+
+For the life of Sopel 7.x, we still plan to maintain compatibility with Python
+2.7 unless it becomes absolutely necessary to drop it. For example, if a severe
+bug is found in one of Sopel's dependencies, and the fix is only released for
+Python 3, we would consider dropping Python 2 support in the next minor version.
+
+From Sopel 8 onward, it would be much easier to implement new features and
+enhancements if we dropped support for very old Python releases. For example,
+Sopel's support for reloading modules during runtime can be made much more
+robust using features added to the language in Python 3.4.
+
+The crux of the matter is this: Sopel's range of supported Python releases
+remained stagnant for far too long. While the Sopel project was effectively
+unmaintained between late 2016 and early 2018, Python 3.3 reached end-of-life
+(September 29, 2017). During the lengthy development period of Sopel 7, Python
+3.4 reached end-of-life (March 18, 2019). Sopel 7 is likely to be released very
+close to the EOL of Python 2.7.
+
+We can't keep testing support for these old versions forever. At some point,
+Sopel's core developers will lose the ability to run them locally. (Python 3.3
+is already difficult—though not impossible—to install on current popular Linux
+systems like Ubuntu 18.04 LTS.) Travis CI, our continuous integration testing
+provider for contributions from both maintainers and the community alike, won't
+keep supporting the installation of EOL Python releases indefinitely. We can't
+support what we can't test.
+
+Keeping all this in mind, the current plan is as follows. Note that it is
+subject to change, as Sopel's development pace remains quite leisurely relative
+to the overall Python ecosystem.
+
+  - Sopel 7 will try to maintain the same Python version compatibility range as
+    Sopel 6
+    - This may change as Sopel 7 gets closer to release, depending on how our
+      testing infrastructure and dependencies look, but we're motivated to keep
+      things as-is (one of Sopel's maintainers still runs a production instance
+      on Python 2.7, and cannot upgrade that system to a compatible version of
+      Python 3 without significant work)
+  - Sopel 8 will drop support for Python releases that are EOL as of the start
+    of its development cycle
+    - This **definitely** means 2.7, 3.3, and 3.4 (already EOL)
+    - Python 3.5 and 3.6 support **might** be dropped, depending on timing
+      - Python 3.6 is [tentatively][PEP-494] EOL in December 2021, so presumably
+        support for 3.5 will end before then, but we don't have enough concrete
+        information from the Python project to _really_ plan this far in advance
+
+  [PEP-494]: https://www.python.org/dev/peps/pep-0494/
+
 
 ## CLI restructuring
 
