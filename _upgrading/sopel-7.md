@@ -1,6 +1,7 @@
 ---
-layout: default
 title: Sopel 7.0 Migration
+covers_from: 6.x
+covers_to: 7.0
 ---
 
 # Sopel 7.0 Migration
