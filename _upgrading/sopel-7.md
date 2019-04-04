@@ -150,6 +150,38 @@ for the life of Sopel 7.x, at a minimum. However, doing so is considered
 deprecated, leaving future versions free to move the callback storage if needed.
 
 
+## Sopel 7 module changes
+
+### Rewrite of `spellcheck`
+
+As of February 2018, the Python bindings for `enchant` [became unmaintained][
+pyenchant-unmaintained]. This made it increasingly difficult to install the
+dependencies required for the `spellcheck` module work, and often [caused][
+windows-enchant] [problems][linux-enchant] with new installations.
+
+Because of this, the `spellcheck` module was rewritten to use `aspell` instead.
+In the process, it also gained support for a custom word list, managed by a set
+of new commands:
+
+  - `.scadd` - stages a word for adding to the bot's word list
+  - `.scpending` - lists words pending addition to the bot's custom list
+  - `.scdel` - removes a word from the pending list
+  - `.scsave` - commits pending words to the bot's word list
+  - `.scclear` - clears the list of pending words without saving
+
+Unfortunately, the `aspell` API only supports *adding* words to the custom
+dictionary. To *remove* a custom word, a user must manually edit the dictionary
+file, so we decided to go with a two-step process. Hopefully it will help Sopel
+admins around the world avoid adding typos to their bots' custom dictionaries!
+
+Depending on how much trouble the `aspell` dependencies cause, support for the
+`spellcheck` module might become a setuptools extra. Feedback is welcome!
+
+  [pyenchant-unmaintained]: https://github.com/rfk/pyenchant/commit/4df35b7
+  [windows-enchant]: https://github.com/sopel-irc/sopel/issues/1142
+  [linux-enchant]: https://github.com/sopel-irc/sopel/pull/1454
+
+
 ## Planned future API changes
 
 ### Removal of `bot.privileges`
