@@ -149,6 +149,75 @@ Manually accessing `bot.memory['url_callbacks']` as before will continue to work
 for the life of Sopel 7.x, at a minimum. However, doing so is considered
 deprecated, leaving future versions free to move the callback storage if needed.
 
+### Adding multiple command examples
+
+Decorating a module callable like this was a great way to add documentation to
+that command through Sopel's `help` module:
+
+```python
+from sopel import module
+
+@module.example('.foo barbaz')
+def foo_cmd(bot, trigger):
+    bot.action('foos %s' % trigger.group(3))
+```
+
+However, *only one example* could ever appear in the `help` output. This was
+[confusing](https://github.com/sopel-irc/sopel/issues/1200) to module authors.
+
+Furthermore, if more than one example was defined:
+
+```python
+from sopel import module
+
+@module.example('.foo barbaz')
+@module.example('.foo spam eggs sausage bacon')
+def foo_cmd(bot, trigger):
+    bot.action('foos %s' % ', '.join(trigger.group(2).split())
+```
+
+It was not necessarily intuitive which example would be displayed if a user
+did `.help foo`. The code says it would use `example[0]`. That's the first one
+in the list, which makes sense. But take a guess which of the two above would
+be used—`.foo barbaz` or `.foo spam eggs sausage bacon`?
+
+Ready to see if you were right?
+
+Sopel would use `.foo spam eggs sausage bacon` as the example, because due to
+how decorators work, it ends up first in the internal list despite appearing
+last in the source code. Not very intuitive for beginning module writers…
+
+So, in Sopel 7, there is a `user_help` argument to `@module.example`. If at
+least one of a callable's examples has this attribute set to `True`, all such
+examples will be used when outputting help for that command:
+
+```python
+from sopel import module
+
+@module.example('.foo barbaz', 'foos barbaz', user_help=True)
+@module.example('.foo', "I can't foo that!")
+@module.example('.foo egg sausage bacon', 'foos egg, sausage, bacon', user_help=True)
+def foo_cmd(bot, trigger):
+    if not trigger.group(2):
+        return bot.say("I can't foo that!")
+    bot.action('foos %s' % ', '.join(trigger.group(2).split())
+```
+
+Here, Sopel's help output will show both `.foo barbaz` and `.foo egg sausage
+bacon` as examples. Plain `.foo` does not have `user_help=True` (it's purely
+there for testing), and so it will not be shown.
+
+Of course, backwards compatibility is important! That's why we used this
+approach. Callables without any `user_help=True` examples will behave just
+like they would have in Sopel 6 and older: The "first" example (the one
+closest to the function's `def` line, last in the source line order) will
+appear in `help`'s output.
+
+Making `user_help=True` the default would make *a ton* of sense, definitely!
+But if we did that, many (many) existing Sopel (and Willie) modules would
+potentially output "bad" help information—so we elected to keep the old
+behavior by default in an effort to minimize any "breakage".
+
 
 ## Sopel 7 module changes
 
