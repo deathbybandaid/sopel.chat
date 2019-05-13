@@ -65,7 +65,28 @@ to the overall Python ecosystem.
         support for 3.5 will end before then, but we don't have enough concrete
         information from the Python project to _really_ plan this far in advance
 
-  [PEP-494]: https://www.python.org/dev/peps/pep-0494/
+[PEP-494]: https://www.python.org/dev/peps/pep-0494/
+
+
+## Database support
+
+Sopel 7 brings back support for databases other than SQLite—an often-requested
+feature ever since Sopel went SQLite-only in version 5.
+
+While we can't practically offer documentation on every possible setup, it
+should be fairly easy to migrate an existing installation to any supported
+database type with a bit of search-fu. Sopel's database support is built on
+SQLAlchemy, which has [ample documentation][sqlalchemy-dialects] of its own
+about getting up and running with various back-ends.
+
+Please don't hesitate to offer feedback in [our IRC channel][sopel-freenode] or
+[a GitHub issue][gh-new-issue]. This is a huge feature, and with a small team
+it's simply not possible for us to test everything—especially the less common
+database types (paid ones like Oracle, especially).
+
+[gh-new-issue]: https://github.com/sopel-irc/sopel/issues/new
+[sopel-freenode]: irc://chat.freenode.net/sopel
+[sqlalchemy-dialects]: https://docs.sqlalchemy.org/en/13/dialects/index.html
 
 
 ## CLI restructuring
