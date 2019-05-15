@@ -293,6 +293,24 @@ If you use third-party modules that have not been updated, we encourage you to
 inform the author(s) politely that they need to update. Or better yet, submit
 a pull request or patch yourself!
 
+### Removal of `bot.msg()`
+
+[Back in 6.0][v6.0.0], Sopel's API standardized around a consistent argument
+order for messaging functions: `message` first, then an optional `recipient` (or
+`destination`, if you like). Part of the old API, `bot.msg()`, has stuck around
+since then because it was, [quote][msg-hard-comment], "way too much of a pain to
+remove". In fact, it turned out to be quite easy to remove.
+
+None of Sopel's own code uses this old method any more, and we will remove it
+entirely in 8.0. Uses of `bot.msg()` in 7.0 will emit a deprecation warning, so
+any remaining third-party code that still uses it can be patched.
+
+If you use third-party modules that have not been updated, we encourage you to
+inform the author(s) politely that they need to update. Or better yet, submit
+a pull request or patch yourself!
+
+  [msg-hard-comment]: https://git.io/sopel-msg-pain
+
 ### Rename/cleanup of `sopel.web`
 
 While the whole `sopel.web` module was marked as deprecated in [Sopel
@@ -328,4 +346,5 @@ in the new location (`sopel.tools.web`). Functions and constants that we plan to
 remove (as listed above) will be available only from the old `sopel.web` module.
 
   [requests]: https://pypi.org/project/requests/
+  [v6.0.0]: {% link _changelogs/6.0.0.md %}
   [v6.2.0]: {% link _changelogs/6.2.0.md %}
