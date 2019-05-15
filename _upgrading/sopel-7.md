@@ -274,6 +274,19 @@ Depending on how much trouble the `aspell` dependencies cause, support for the
 
 ## Planned future API changes
 
+This section is all about stuff that won't cause problems *now*, but *will*
+break in a future release if not updated. Most of these are planned removals of,
+or changes to, API features deprecated long ago.
+
+We suggest reviewing these upcoming changes, and updating your own modules if
+they still use anything listed here, as soon as possible. Updating modules
+published to PyPI should take priority, especially modules written for Sopel 6
+that are not future-proofed by capping Sopel's version in their requirements.
+
+If you use third-party modules that have not been updated, we encourage you to
+inform the author(s) politely that they need to update. Or better yet, submit a
+pull request or patch yourself!
+
 ### Removal of `bot.privileges`
 
 Sopel 7.x will be the last release series to support the `bot.privileges` data
@@ -282,16 +295,6 @@ structure (deprecated in [Sopel 6.2.0][v6.2.0], released January 16, 2016).
 Beginning in Sopel 8, `bot.privileges` will be removed and modules trying to
 access it will throw an exception. `bot.channels` will be the _only_ place to
 get privilege data going forward.
-
-We suggest updating your own modules as soon as possible, if you have not
-already done so, to avoid forgetting later (this will be a theme for these
-notes). Updating modules published to PyPI should take priority, especially
-modules written for Sopel 6 that are not future-proofed by capping Sopel's
-version in their requirements.
-
-If you use third-party modules that have not been updated, we encourage you to
-inform the author(s) politely that they need to update. Or better yet, submit
-a pull request or patch yourself!
 
 ### Removal of `bot.msg()`
 
@@ -303,11 +306,7 @@ remove". In fact, it turned out to be quite easy to remove.
 
 None of Sopel's own code uses this old method any more, and we will remove it
 entirely in 8.0. Uses of `bot.msg()` in 7.0 will emit a deprecation warning, so
-any remaining third-party code that still uses it can be patched.
-
-If you use third-party modules that have not been updated, we encourage you to
-inform the author(s) politely that they need to update. Or better yet, submit
-a pull request or patch yourself!
+any remaining third-party code that still uses it can be found and patched.
 
   [msg-hard-comment]: https://git.io/sopel-msg-pain
 
