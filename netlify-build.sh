@@ -7,8 +7,8 @@ echo "Generating changelogs & latest.json file"
 python document_versions.py --news=_sopel/NEWS
 
 echo "Installing Sopel globally for module autodoc script"
-grep -v "pyenchant" _sopel/requirements.txt > _sopel/requirements.noenchant
-mv _sopel/requirements.noenchant _sopel/requirements.txt
+grep -v "aspell-python" _sopel/requirements.txt > _sopel/requirements.noaspell
+mv _sopel/requirements.noaspell _sopel/requirements.txt
 pip install ./_sopel
 
 echo "Generating module command/config pages"
